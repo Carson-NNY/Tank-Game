@@ -1,10 +1,7 @@
-package TankGame03;
-
 import java.util.Vector;
 
 /**
- * @author Carson
- * @Version
+ * Parent class Tank
  */
 public class Tank {
     private int x;
