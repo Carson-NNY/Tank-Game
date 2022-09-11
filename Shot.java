@@ -1,17 +1,14 @@
-package TankGame03;
-
 import java.awt.*;
 import java.io.Serializable;
 
 /**
- * @author Carson
- * @Version
+ * the class for bullets
  */
 public class Shot implements Runnable, Serializable {
     int x;
     int y;
     int direction;
-    int speed =6;
+    int speed =6;    // at what speed that bullets move on the screen
     boolean isLive = true;
 
     public Shot(int x, int y, int direction) {
@@ -47,7 +44,7 @@ public class Shot implements Runnable, Serializable {
                 default:
             }
 
-            System.out.println("子弹 x: " +x+ " y: "+ y);
+            System.out.println("bullet x: " +x+ " y: "+ y);
             if( ! (x>=0 && x <= 1000 && y >=0 && y<= 750)){
                 isLive = false;
                 break;
