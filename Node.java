@@ -1,8 +1,6 @@
-package TankGame03;
 
 /**
- * @author Carson
- * @Version
+ * to record the cordinate of the tanks
  */
 public class Node {
     private int x;
