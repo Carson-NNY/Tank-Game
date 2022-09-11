@@ -1,22 +1,17 @@
-package TankGame03;
-
 import java.io.*;
 import java.util.Vector;
 
 /**
- * @author Carson
- * @Version
+ * Make this class a utility class for storing the cordinates
  */
 public class Recorder01 {
-    // 全设置成static， 使这个类变成工具类
-
     private static int allEnemyNum = 0;
     private static FileWriter fileWriter  = null;
     private static BufferedWriter bufferedWriter = null;
     private static BufferedReader bufferedReader = null;
     private static Vector<EnemyTank> enemyTanks = null;
     private  static Vector<Node> nodes = new Vector<>();
-    private static String recordFile = "/Users/carson/Downloads/java.bili/Chapter15/src/TankGame03/record01.txt";
+    private static String recordFile = "/Users/carson/Downloads/java.bili/Chapter15/src/TankGame03/record01.txt"; // it is subject to be changed
 
 
     public static void setEnemyTanks(Vector<EnemyTank> enemyTanks) {
@@ -27,7 +22,7 @@ public class Recorder01 {
         return recordFile;
     }
 
-    // 用于读取文件，恢复相关信息
+    // Used to read files and recover relevant information
     public static Vector<Node> GetNodesAndEnemyTankRec(){
         try {
              bufferedReader = new BufferedReader(new FileReader(recordFile));
