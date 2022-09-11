@@ -1,16 +1,13 @@
-package TankGame03;
-
 
 import java.util.Vector;
 
 /**
- * @author Carson
- * @Version
+ * this us subclass from Tank for our own tank
  */
 public class Hero extends Tank {
     Shot shot =null;
     boolean isLive = true;
-    Vector<Shot> shots = new Vector<>();    // 多颗子弹实现
+    Vector<Shot> shots = new Vector<>();    // for multiple bullets
 
     public Hero(int x, int y) {
 
@@ -19,7 +16,7 @@ public class Hero extends Tank {
 
     public void shotEnemyTank(){
 
-        if(shots.size()==5){ //限制屏幕自己坦克最多射出子弹
+        if(shots.size()==5){ //Limit the maximum number of bullets fired by your own tank on the screen
             return;
         }
         switch (getDirection()){
@@ -38,7 +35,7 @@ public class Hero extends Tank {
         }
 
         shots.add(shot);
-        // 启动线程！
+        // start the thread
         new Thread(shot).start();
 
     }
