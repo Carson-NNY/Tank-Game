@@ -1,17 +1,14 @@
-package TankGame03;
-
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Scanner;
 
 /**
- * @author Carson
- * @Version
+ * main class for starting the game
  */
 public class WindowTankGame03 extends JFrame {
 
-    // 定义Mypanel
+    // define Mypanel
     MyPanel mp = null;
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
@@ -19,7 +16,7 @@ public class WindowTankGame03 extends JFrame {
 
     }
     public WindowTankGame03(){
-        System.out.println("请输入选择1：开始新游戏  2： 继续上句游戏 ");
+        System.out.println("Please choose an option:  1: start a new game 2: continue the game ");
         String key = scanner.next();
         mp= new MyPanel(key);
         Thread thread = new Thread(mp);
@@ -33,7 +30,7 @@ public class WindowTankGame03 extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("间听关闭");
+                System.out.println("close monitoring");
                 Recorder01.saveRecord();
                 //Recorder01.SaveTank(MyPanel.enemyTank);
                 System.exit(0);
