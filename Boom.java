@@ -1,8 +1,7 @@
 package TankGame03;
 
 /**
- * @author Carson
- * @Version
+ * This is Boom class for picture effect after tanks being destroyed.
  */
 public class Boom {
     int x,y;
