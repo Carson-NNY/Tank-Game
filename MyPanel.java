@@ -1,5 +1,3 @@
-package TankGame03;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -12,18 +10,17 @@ import java.util.Scanner;
 import java.util.Vector;
 
 /**
- * @author Carson
- * @Version
+ * the panel where all the operation take place and draw all the tanks and bullets
  */
 public class MyPanel extends JPanel implements KeyListener,Runnable  {
-    //  定义我的坦克
+    //  define our own tank
     Hero hero = null;
-     Vector<EnemyTank> enemyTank = new Vector<>(); // vector 多线程安全
-    // 定义一个存放的node对象Vector，用于恢复敌人坦克的坐标方向
+     Vector<EnemyTank> enemyTank = new Vector<>(); // vector - safe for Multithreading
+    // Define a Vector object that stores node, which is used to restore the coordinate direction of the enemy tank.
     Vector<Node> nodes = new Vector<>();
 
     int enemyTankSize = 6;
-    // 因为爆炸效果只出现panel上，所以只在这里创建对象。。
+    // Because the explosion effect only appears on panel, only objects are created here.
     Vector<Boom> booms = new Vector<>();
     Image image = null;
     Image image2 = null;
@@ -35,35 +32,34 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
         if(file.exists()){
             nodes = Recorder01.GetNodesAndEnemyTankRec();
         }else{
-            System.out.println("文件不存在，只能存在新的游戏");
+            System.out.println("The file does not exist and you can only start a new game.");
             key = "1";
         }
 
-        Recorder01.setEnemyTanks(enemyTank);    // OOP思想！Set方法相互连接
+        Recorder01.setEnemyTanks(enemyTank);    // OOP thought! Using Set methods to connect each class or file
 
-        hero = new Hero(100, 500);   // 初始化自己坦克
+        hero = new Hero(100, 500);   // Initialize your own tank
 
         switch (key) {
             case "1":
                 for (int i = 0; i < enemyTankSize; i++) {
                     EnemyTank enemyTank02 = new EnemyTank(100 * (i + 1), 0);
                     enemyTank02.setDirection(2);
-                    // 这个把MyPanel和EnemyTank类里面的EnemyTank Vector连接起来
+                    // This connects the EnemyTank Vector of MyPanel to the EnemyTank Vector in the EnemyTank class.
                     enemyTank02.setEnemyTanks(enemyTank);
                     new Thread(enemyTank02).start();
 
-                    // 这种绘制子弹方法会根据坦克的位置而不停改变它的发射位置！
+                    // This method of drawing bullets will constantly change the firing position of the tank according to its position!
                     Shot shot = new Shot(enemyTank02.getX(), enemyTank02.getY(), enemyTank02.getDirection());
-                    // 加入enemyTank02 的子弹vector成员
+                    // add shot object
                     enemyTank02.shots.add(shot);
-                    // 启动shot对象
                     new Thread(shot).start();
                     enemyTank.add(enemyTank02);
                 }
                 break;
             case "2":
 
-                for (int i = 0; i < nodes.size(); i++) {// Nodes类很妙！存储敌人坐标等信息
+                for (int i = 0; i < nodes.size(); i++) { // The Nodes class is wonderful!  Store information such as enemy coordinates
 
                     Node node = nodes.get(i);
                     EnemyTank enemyTank02 = new EnemyTank(node.getX(), node.getY());
@@ -71,35 +67,32 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
                     enemyTank02.setEnemyTanks(enemyTank);
                     new Thread(enemyTank02).start();
 
-                    // 这种绘制子弹方法会根据坦克的位置而不停改变它的发射位置！
                     Shot shot = new Shot(enemyTank02.getX(), enemyTank02.getY(), enemyTank02.getDirection());
-                    // 加入enemyTank02 的子弹vector成员
+                    // add shot object
                     enemyTank02.shots.add(shot);
-                    // 启动shot对象
                     new Thread(shot).start();
                     enemyTank.add(enemyTank02);
                 }
                 break;
             default:
-                System.out.println("你的输入有误");
+                System.out.println("invalid input");
         }
 
-        // 初始化图片对象
+        // Initialize picture object
         image = Toolkit.getDefaultToolkit().getImage(MyPanel.class.getResource("bomb_1.gif"));
         image2 = Toolkit.getDefaultToolkit().getImage(MyPanel.class.getResource("bomb_2.gif"));
         image3 = Toolkit.getDefaultToolkit().getImage(MyPanel.class.getResource("bomb_3.gif"));
 
-        //image3 = Toolkit.getDefaultToolkit().getImage(MyPanel.class.getResource("bomb_3.gif"));
 
-        //音效
+        //sound effect
         new AePlayWave("/Users/carson/Downloads/java.bili/Chapter15/src/TankGame03/111.wav").start();
 
     }
     public void showInfo(Graphics g){
         g.setColor(Color.black);
-        Font font = new Font("宋体", Font.BOLD, 25);
+        Font font = new Font("Arial", Font.BOLD, 25);
         g.setFont(font);
-        g.drawString("您累积击毁敌方坦克",1020,30);
+        g.drawString("The number of enemy tanks destroyed is: ",1020,30);
         drawTank(1020,60,g,0,0);
         g.setColor(Color.black);
         g.drawString(Recorder01.getAllEnemyNum()+"",1080,100);
@@ -109,19 +102,19 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.fillRect(0,0,1000,750);    // 填充默认的是黑色
+        g.fillRect(0,0,1000,750);    
         showInfo(g);
-        // 画出坦克-封装方法
+        // draw the tank
         if(hero != null && hero.isLive) {
             drawTank(hero.getX(), hero.getY(), g, hero.getDirection(), 1);
         }
 
-//         画自己的子弹
+//         
 //        if(hero.shot != null && hero.shot.isLive ==true ) {
 //            g.fillOval(hero.shot.x,hero.shot.y,4,4);
 //        }
 
-        //绘制所有的子弹
+        //Draw all the bullets.
         for (int i = 0; i < hero.shots.size(); i++) {
             Shot shot = hero.shots.get(i);
             if (shot != null && shot.isLive == true) {
@@ -147,18 +140,18 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
             }
         }
 
-        //画敌人坦克
+        //Draw enemy tanks
         for (int i = 0; i < enemyTank.size(); i++) {
-            EnemyTank enemyTank01 = enemyTank.get(i);   // 为了控制坦克的方向
+            EnemyTank enemyTank01 = enemyTank.get(i);   // To control the direction of the tank
             if(enemyTank01.isLive ) {
                 drawTank(enemyTank01.getX(), enemyTank01.getY(), g, enemyTank01.getDirection(), 0);
-                // 为了以后 多个子弹作准备，遍历子弹
+                // To prepare for multiple bullets in the future, iterate the bullets.
                 for (int j = 0; j < enemyTank01.shots.size(); j++) {
-                    // 取出子弹
+                    // Remove the bullet
                     Shot shot = enemyTank01.shots.get(j);
                     if (shot.isLive) {
                         g.fillRect(shot.x, shot.y, 4, 4);
-                    } else {  // 如果子弹死了不移除，子弹会被一直绘制
+                    } else {  // If the bullet dies and is not removed, the bullet will always be drawn
                         enemyTank01.shots.remove(shot);
                     }
                 }
@@ -169,7 +162,7 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
     }
     /**
      *
-     * @param x 坦克的左上角x坐标
+     * @param x The upper left corner of the tank x coordinate
      * @param y
      * @param g paintbrush
      * @param direction  the direction of the tank
@@ -185,39 +178,39 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
                 g.setColor(Color.ORANGE);
         }
 
-        // direction： 0向上，1向右，2向下，3向左
+        // direction：0 up, 1 to the right, 2 down, 3 to the left
         switch (direction){
-            case 0: // 向上
-                g.fill3DRect(x,y,10,60,false);  // 左边轮子
-                g.fill3DRect(x+30,y,10,60,false);// 右轮子
-                g.fill3DRect(x+10,y+10,20,40,false);//坦克盖子
-                g.fillOval(x+10,y+20,20,20);// 圆形盖子
+            case 0: //up
+                g.fill3DRect(x,y,10,60,false);  // left wheel
+                g.fill3DRect(x+30,y,10,60,false);// right wheel
+                g.fill3DRect(x+10,y+10,20,40,false);//tank cover
+                g.fillOval(x+10,y+20,20,20);//round cover
                 g.drawLine(x+20,y+30,x+20,y);
                 break;
-            case 1: // 向右
-                g.fill3DRect(x,y,60,10,false);  // 左边轮子
-                g.fill3DRect(x,y+30,60,10,false);// 右轮子
-                g.fill3DRect(x+10,y+10,40,20,false);//坦克盖子
-                g.fillOval(x+20,y+10,20,20);// 圆形盖子
+            case 1: // right
+                g.fill3DRect(x,y,60,10,false);  // left wheel
+                g.fill3DRect(x,y+30,60,10,false);// right wheel
+                g.fill3DRect(x+10,y+10,40,20,false);//tank cover
+                g.fillOval(x+20,y+10,20,20);// round cover
                 g.drawLine(x+30,y+20,x+60,y+20);
                 break;
-            case 2: // 向下
-                g.fill3DRect(x,y,10,60,false);  // 左边轮子
-                g.fill3DRect(x+30,y,10,60,false);// 右轮子
-                g.fill3DRect(x+10,y+10,20,40,false);//坦克盖子
-                g.fillOval(x+10,y+20,20,20);// 圆形盖子
+            case 2: // down
+                g.fill3DRect(x,y,10,60,false);  // left wheel
+                g.fill3DRect(x+30,y,10,60,false);// right wheel
+                g.fill3DRect(x+10,y+10,20,40,false);//tank cover
+                g.fillOval(x+10,y+20,20,20);// round cover
                 g.drawLine(x+20,y+30,x+20,y+60);
                 break;
-            case 3: // 向左
-                g.fill3DRect(x,y,60,10,false);  // 左边轮子
-                g.fill3DRect(x,y+30,60,10,false);// 右轮子
-                g.fill3DRect(x+10,y+10,40,20,false);//坦克盖子
-                g.fillOval(x+20,y+10,20,20);// 圆形盖子
+            case 3: // left
+                g.fill3DRect(x,y,60,10,false);  // left wheel
+                g.fill3DRect(x,y+30,60,10,false);// right wheel
+                g.fill3DRect(x+10,y+10,40,20,false);//tank cover
+                g.fillOval(x+20,y+10,20,20);// round cover
                 g.drawLine(x+30,y+20,x,y+20);
 
             default:
 
-                System.out.println("待定");
+                System.out.println("TBD");
         }
     }
 
@@ -247,12 +240,12 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
         }
 
         if(e.getKeyCode()==KeyEvent.VK_J){
-//            发射单颗子弹
+//            Fire a single bullet
 //            if(hero.shot ==null || hero.shot.isLive == false) {
 //                hero.shotEnemyTank();
 //            }
 
-            //发射多颗子弹
+            //Fire multiple bullets
             hero.shotEnemyTank();
         }
         this.repaint();
@@ -261,9 +254,9 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
 
 
 
-    public  void hitTank(Shot s, Tank tank){  // 击中敌方坦克
+    public  void hitTank(Shot s, Tank tank){  // Hit an enemy tank
 
-        // 判断敌人坦克的方向
+        // determine the direction of the enemy tank
         switch (tank.getDirection()){
             case 0:
             case 2:
@@ -302,7 +295,7 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
     }
     public  void hitHeroTank(Shot s, Hero tank){
 
-        // 判断敌人坦克的方向
+        // determine the direction of the enemy tank
         switch (tank.getDirection()){
             case 0:
             case 2:
@@ -330,7 +323,7 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
         for (int i = 0; i < hero.shots.size(); i++) {
             Shot shot = hero.shots.get(i);
             if( shot!= null && shot.isLive){
-                // 判断自己的子弹是否击中
+                // Determine if your bullet hits
                 for (int j = 0; j < enemyTank.size(); j++) {
                     EnemyTank enemyTank022 = enemyTank.get(j);
                     hitTank(shot,enemyTank022);
@@ -357,7 +350,7 @@ public class MyPanel extends JPanel implements KeyListener,Runnable  {
     public void keyReleased(KeyEvent e) {
     }
 
-    // 为了让子弹不停重绘，将MyPanel做成线程
+    // In order to keep the bullet redrawn, make MyPanel a thread
     @Override
     public void run() {
         while(true){
