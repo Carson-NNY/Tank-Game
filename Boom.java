@@ -1,4 +1,4 @@
-package TankGame03;
+
 
 /**
  * This is Boom class for picture effect after tanks being destroyed.
