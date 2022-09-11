@@ -1,13 +1,9 @@
-package TankGame03;
+
 
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * @author 韩顺平
- * @version 1.0
- */
 public class AePlayWave extends Thread {
     private String filename;
 
@@ -42,7 +38,7 @@ public class AePlayWave extends Thread {
 
         auline.start();
         int nBytesRead = 0;
-        //这是缓冲
+
         byte[] abData = new byte[512];
 
         try {
