@@ -1,12 +1,10 @@
-package TankGame03;
 
 import java.io.Serializable;
 import java.util.Random;
 import java.util.Vector;
 
 /**
- * @author Carson
- * @Version
+ * a subclass from Tank, designed for various operations of enemy tanks
  */
 public class EnemyTank extends Tank implements Runnable {
     Vector<Shot> shots = new Vector<>();
@@ -22,20 +20,20 @@ public class EnemyTank extends Tank implements Runnable {
     public boolean isTouchEnemy(){
 
         switch (getDirection()){
-            case 0: // 当当前坦克向上时
+            case 0: // When the tank is facing up
                 for (int i = 0; i < enemyTanks.size(); i++) {
                     EnemyTank enemyTank02 = enemyTanks.get(i);
                     if(enemyTank02 != this){
                         if(enemyTank02.getDirection() == 0 || enemyTank02.getDirection()==2){
-                            // 当碰到的坦克为 上或下时
+                            // When the tank hit is up or down
 
-                            // 当碰到左上角坐标
+                            // When touching the upper left coordinate
                             if(this.getX()>= enemyTank02.getX() && this.getX()<=enemyTank02.getX()+40
                             && this.getY()>=enemyTank02.getY() && this.getY() <= enemyTank02.getY()+60){
                                 return true;
                             }
 
-                            // 当碰到右上角坐标
+                            // When touching the upper right coordinates
                             if(this.getX()+40 >= enemyTank02.getX() && this.getX()+40<=enemyTank02.getX()+40
                                     && this.getY()>=enemyTank02.getY() && this.getY() <= enemyTank02.getY()+60){
                                 return true;
@@ -43,9 +41,9 @@ public class EnemyTank extends Tank implements Runnable {
 
                         }
                         if(enemyTank02.getDirection() == 1 || enemyTank02.getDirection()==3){
-                            // 当碰到的坦克为 左或右 时
+                            // When the tank hit is left or right
 
-                            // // 当碰到左上角坐标
+                            // // When touching the upper left coordinate
                             if(this.getX()>= enemyTank02.getX()
                                     && this.getX()<=enemyTank02.getX()+60
                                     && this.getY()>=enemyTank02.getY()
@@ -53,7 +51,7 @@ public class EnemyTank extends Tank implements Runnable {
                                 return true;
                             }
 
-                            // 当碰到右上角坐标
+                            // When touching the upper right coordinate
                             if(this.getX()+40 >= enemyTank02.getX()
                                     && this.getX()+40<=enemyTank02.getX()+60
                                     && this.getY()>=enemyTank02.getY()
@@ -70,9 +68,9 @@ public class EnemyTank extends Tank implements Runnable {
                     EnemyTank enemyTank02 = enemyTanks.get(i);
                     if(enemyTank02 != this){
                         if(enemyTank02.getDirection() == 0 || enemyTank02.getDirection()==2){
-                            // 当碰到的坦克为 上或下时
+                            // When the tank hit is up or down
 
-                            // 当碰到右上角坐标
+                            // When touching the upper right  coordinates
                             if(this.getX() +60>= enemyTank02.getX()
                                     && this.getX()+60 <=enemyTank02.getX()+40
                                     && this.getY()>=enemyTank02.getY()
@@ -80,7 +78,7 @@ public class EnemyTank extends Tank implements Runnable {
                                 return true;
                             }
 
-                            // 当碰到右下角坐标
+                            // When the coordinates of the lower right corner are encountered
                             if(this.getX()+60 >= enemyTank02.getX()
                                     && this.getX()+60<=enemyTank02.getX()+40
                                     && this.getY()+40>=enemyTank02.getY()
@@ -90,9 +88,9 @@ public class EnemyTank extends Tank implements Runnable {
 
                         }
                         if(enemyTank02.getDirection() == 1 || enemyTank02.getDirection()==3){
-                            // 当碰到的坦克为 左或右 时
+                            // When the tank hit is left or right
 
-                            // // 当碰到右上角坐标
+                            // // When touching the upper right corner coordinates
                             if(this.getX() +60 >= enemyTank02.getX()
                                     && this.getX()+60 <=enemyTank02.getX()+60
                                     && this.getY()>=enemyTank02.getY()
@@ -100,7 +98,7 @@ public class EnemyTank extends Tank implements Runnable {
                                 return true;
                             }
 
-                            // 当碰到右下角坐标
+                            // When touching the lower right corner coordinates
                             if(this.getX()+60 >= enemyTank02.getX()
                                     && this.getX()+60<=enemyTank02.getX()+60
                                     && this.getY()+40>=enemyTank02.getY()
@@ -117,9 +115,9 @@ public class EnemyTank extends Tank implements Runnable {
                     EnemyTank enemyTank02 = enemyTanks.get(i);
                     if(enemyTank02 != this){
                         if(enemyTank02.getDirection() == 0 || enemyTank02.getDirection()==2){
-                            // 当碰到的坦克为 上或下时
+                            // When the tank you encounter is up or down
 
-                            // 当碰到坐下角坐标
+                            // When touching the coordinates of the lower left corner
                             if(this.getX() >= enemyTank02.getX()
                                     && this.getX() <=enemyTank02.getX()+40
                                     && this.getY()+60>=enemyTank02.getY()
@@ -127,7 +125,7 @@ public class EnemyTank extends Tank implements Runnable {
                                 return true;
                             }
 
-                            // 当碰到右下角坐标
+                            // When touching the coordinates of the lower right corner
                             if(this.getX()+40 >= enemyTank02.getX()
                                     && this.getX()+40<=enemyTank02.getX()+40
                                     && this.getY()+60>=enemyTank02.getY()
@@ -137,9 +135,9 @@ public class EnemyTank extends Tank implements Runnable {
 
                         }
                         if(enemyTank02.getDirection() == 1 || enemyTank02.getDirection()==3){
-                            // 当碰到的坦克为 左或右 时
+                            // When the tank you encounter is left or right
 
-                            // // 当碰到左下角坐标
+                            // // When touching the coordinates of the lower left corner
                             if(this.getX()  >= enemyTank02.getX()
                                     && this.getX()<=enemyTank02.getX()+60
                                     && this.getY()+60>=enemyTank02.getY()
@@ -147,7 +145,7 @@ public class EnemyTank extends Tank implements Runnable {
                                 return true;
                             }
 
-                            // 当碰到右下角坐标
+                            // When touching the coordinates of the lower right corner
                             if(this.getX()+40 >= enemyTank02.getX()
                                     && this.getX()+40<=enemyTank02.getX()+60
                                     && this.getY()+60>=enemyTank02.getY()
@@ -164,9 +162,9 @@ public class EnemyTank extends Tank implements Runnable {
                     EnemyTank enemyTank02 = enemyTanks.get(i);
                     if(enemyTank02 != this){
                         if(enemyTank02.getDirection() == 0 || enemyTank02.getDirection()==2){
-                            // 当碰到的坦克为 上或下时
+                            // When the tank you encounter is up or down
 
-                            // 当碰到左上 角坐标
+                            // When touching the coordinates of the upper left corner
                             if(this.getX() >= enemyTank02.getX()
                                     && this.getX() <=enemyTank02.getX()+40
                                     && this.getY()>=enemyTank02.getY()
@@ -174,7 +172,7 @@ public class EnemyTank extends Tank implements Runnable {
                                 return true;
                             }
 
-                            // 当碰到右下角坐标
+                            // When touching the coordinates of the lower right corner
                             if(this.getX()>= enemyTank02.getX()
                                     && this.getX()<=enemyTank02.getX()+40
                                     && this.getY()+60>=enemyTank02.getY()
@@ -184,9 +182,9 @@ public class EnemyTank extends Tank implements Runnable {
 
                         }
                         if(enemyTank02.getDirection() == 1 || enemyTank02.getDirection()==3){
-                            // 当碰到的坦克为 左或右 时
+                            // When the tank you encounter is left or right
 
-                            // // 当碰到左上角坐标
+                            // // When touching the coordinates of the upper left corner
                             if(this.getX()  >= enemyTank02.getX()
                                     && this.getX() <= enemyTank02.getX()+60
                                     && this.getY()>=enemyTank02.getY()
@@ -194,7 +192,7 @@ public class EnemyTank extends Tank implements Runnable {
                                 return true;
                             }
 
-                            // 当碰到右下角坐标
+                            // When touching the coordinates of the lower right corner
                             if(this.getX() >= enemyTank02.getX()
                                     && this.getX() <=enemyTank02.getX()+60
                                     && this.getY()+40 >=enemyTank02.getY()
@@ -233,7 +231,7 @@ public class EnemyTank extends Tank implements Runnable {
                         break;
                 }
                 shots.add(shot);
-                // 启动shot的线程
+                // starting the thread of shot
                 new Thread(shot).start();
             }
 
